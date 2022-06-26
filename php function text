@@ -1,0 +1,92 @@
+<?php
+/**
+ * The template for displaying all pages, single posts and attachments
+ *
+ * This is a new template file that WordPress introduced in
+ * version 4.3.
+ *
+ * @package OceanWP WordPress theme
+ */
+
+get_header(); ?>
+
+	<?php do_action( 'ocean_before_content_wrap' ); ?>
+
+	<div id="content-wrap" class="container clr">
+
+		<?php do_action( 'ocean_before_primary' ); ?>
+
+		<div id="primary" class="content-area clr">
+
+			<?php do_action( 'ocean_before_content' ); ?>
+
+			<div id="content" class="site-content clr">
+
+				<?php do_action( 'ocean_before_content_inner' ); ?>
+
+				<?php
+
+				while ( have_posts() ) :
+					the_post();
+					$project_client_name 	= get_field('project_client_name');
+					$project_role 			= get_field('project_role');
+					$project_year 			= get_field('project_year');
+					$project_platforms 		= get_field('project_platforms');
+					$project_url 			= get_field('project_url');
+
+					$projectImg = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
+					?>
+
+					<div class="bbp_single_project_wrapper">
+						<div class="bbp_single_project_image">
+							<a class="no-lightbox" href="<?php echo $projectImg[0]; ?>"><?php the_post_thumbnail(); ?></a>
+						</div>
+
+						<div class="bbp_single_project_meta">
+							<?php if (!empty($project_client_name)): ?>
+								<div><b>Client:</b> <?php echo $project_client_name; ?></div>
+							<?php endif; ?>
+
+							<?php if (!empty($project_role)): ?>
+								<div><b>Role:</b> <?php echo $project_role; ?></div>
+							<?php endif; ?>
+
+							<?php if (!empty($project_year)): ?>
+								<div><b>Year:</b> <?php echo $project_year; ?></div>
+							<?php endif; ?>
+
+							<?php if (!empty($project_platforms)): ?>
+								<div><b>Platforms:</b> <?php echo $project_platforms; ?></div>
+							<?php endif; ?>
+
+							<?php if (!empty($project_url)): ?>
+								<div><b>Project URL:</b> <a target="_blank" href="<?php echo $project_url; ?>"><?php echo $project_url; ?></a></div>
+							<?php endif; ?>
+						</div>
+					
+						<div class="bbp_single_project_content">
+							<?php the_content(); ?>
+						</div>
+
+					</div>
+
+					<?php
+				endwhile;
+
+				?>
+
+				<?php do_action( 'ocean_after_content_inner' ); ?>
+
+			</div><!-- #content -->
+
+			<?php do_action( 'ocean_after_content' ); ?>
+
+		</div><!-- #primary -->
+
+		<?php do_action( 'ocean_after_primary' ); ?>
+
+	</div><!-- #content-wrap -->
+
+	<?php do_action( 'ocean_after_content_wrap' ); ?>
+
+<?php get_footer(); ?>
